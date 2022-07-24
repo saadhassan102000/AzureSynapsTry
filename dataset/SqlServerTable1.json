@@ -1,0 +1,195 @@
+{
+	"name": "SqlServerTable1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SqlServer1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "OrdNum",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CSS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "KAM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CaseName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FirmNo",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "BRG",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CurrentPartStatus",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FirmName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FirmCity",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FirmState",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FirmRating",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FirmClass",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CreationDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "Aging Business Days",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Order Age (MR8 part create date to present Business days)",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Order Age (MR8 order date to present Business days)",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "60+ Aged",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "90+ Aged",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "OIP Status",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LocationName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LocType",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LocCity",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Aging Hold or In Progress",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Last Status Date",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "Last Note Date",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "Last Note Aging Business Days",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Last Note",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Last RRC Note Aging Business Days",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RequestSent_Aging",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "CaseType",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FacSpec",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FacPartnership",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LocPhoneNumber",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LocState",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RollUpGrouping",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RecordType",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ReOpen",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Assigned OE Specialist",
+				"type": "nvarchar"
+			},
+			{
+				"name": "F39",
+				"type": "nvarchar"
+			},
+			{
+				"name": "F40",
+				"type": "nvarchar"
+			},
+			{
+				"name": "F41",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "OpenOrders$"
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}
