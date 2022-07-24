@@ -10,13 +10,6 @@
 						"type": "DatasetReference"
 					},
 					"name": "source1"
-				},
-				{
-					"dataset": {
-						"referenceName": "OpenOrdersHistory",
-						"type": "DatasetReference"
-					},
-					"name": "source2"
 				}
 			],
 			"sinks": [
@@ -30,13 +23,7 @@
 			],
 			"transformations": [
 				{
-					"name": "exists1"
-				},
-				{
 					"name": "surrogateKey1"
-				},
-				{
-					"name": "aggregate1"
 				}
 			],
 			"scriptLines": [
@@ -88,62 +75,9 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: true,",
 				"     ignoreNoFilesFound: false) ~> source1",
-				"source(output(",
-				"          OrdNum as string,",
-				"          CSS as string,",
-				"          KAM as string,",
-				"          CaseName as string,",
-				"          FirmNo as string,",
-				"          BRG as string,",
-				"          CurrentPartStatus as string,",
-				"          FirmName as string,",
-				"          FirmCity as string,",
-				"          FirmState as string,",
-				"          FirmRating as string,",
-				"          FirmClass as string,",
-				"          CreationDate as string,",
-				"          {Aging Business Days} as string,",
-				"          {Order Age (MR8 part create date to present Business days)} as short,",
-				"          {Order Age (MR8 order date to present Business days)} as string,",
-				"          {60+ Aged} as string,",
-				"          {90+ Aged} as string,",
-				"          {OIP Status} as string,",
-				"          LocationName as string,",
-				"          LocType as string,",
-				"          LocCity as string,",
-				"          {Aging Hold or In Progress} as string,",
-				"          {Last Status Date} as string,",
-				"          {Last Note Date} as string,",
-				"          {Last Note Aging Business Days} as short,",
-				"          {Last Note} as string,",
-				"          {Last RRC Note Aging Business Days} as string,",
-				"          RequestSent_Aging as string,",
-				"          CaseType as string,",
-				"          FacSpec as string,",
-				"          FacPartnership as string,",
-				"          LocPhoneNumber as string,",
-				"          LocState as string,",
-				"          RollUpGrouping as string,",
-				"          RecordType as string,",
-				"          ReOpen as boolean,",
-				"          {Assigned OE Specialist} as string,",
-				"          F39 as string,",
-				"          F40 as string,",
-				"          F41 as string,",
-				"          TriggerTime as string,",
-				"          guid as string",
-				"     ),",
-				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> source2",
-				"source1, source2 exists(source1@OrdNum == source2@OrdNum,",
-				"     negate:true,",
-				"     broadcast: 'auto')~> exists1",
-				"exists1 keyGenerate(output(HistoryKey as long),",
+				"source1 keyGenerate(output(HistoryKey as long),",
 				"     startAt: 1L,",
 				"     stepValue: 1L) ~> surrogateKey1",
-				"source2 aggregate(MaxValHistoryKey = max(HistoryKey)\r",
-				") ~> aggregate1",
 				"surrogateKey1 sink(allowSchemaDrift: false,",
 				"     validateSchema: false,",
 				"     input(",
