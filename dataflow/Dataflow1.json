@@ -26,6 +26,9 @@
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
+				},
+				{
+					"name": "sink2"
 				}
 			],
 			"transformations": [
@@ -34,6 +37,9 @@
 				},
 				{
 					"name": "exists1"
+				},
+				{
+					"name": "aggregate1"
 				}
 			],
 			"scriptLines": [
@@ -140,6 +146,8 @@
 				"source1, source2 exists(source1@OrdNum == source2@OrdNum,",
 				"     negate:true,",
 				"     broadcast: 'auto')~> exists1",
+				"source2 aggregate(MaxValHKey = max(toInteger(HistoryKey)),",
+				"     local1 := max(toInteger(HistoryKey))) ~> aggregate1",
 				"surrogateKey1 sink(allowSchemaDrift: false,",
 				"     validateSchema: false,",
 				"     input(",
@@ -237,8 +245,16 @@
 				"          F41,",
 				"          TriggerTime,",
 				"          guid,",
-				"          HistoryKey",
-				"     )) ~> sink1"
+				"          HistoryKey = HistoryKey123",
+				"     )) ~> sink1",
+				"aggregate1 sink(validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     keys:['MaxValHKey'],",
+				"     store: 'cache',",
+				"     format: 'inline',",
+				"     output: false,",
+				"     saveOrder: 1) ~> sink2"
 			]
 		}
 	}
