@@ -1,0 +1,18 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"workspaceName": {
+			"value": "ontellusworkspace1"
+		},
+		"SqlServer1_connectionString": {
+			"value": ""
+		},
+		"ontellusworkspace1-WorkspaceDefaultSqlServer_connectionString": {
+			"value": ""
+		},
+		"ontellusworkspace1-WorkspaceDefaultStorage_properties_typeProperties_url": {
+			"value": "https://ontellusgen2account.dfs.core.windows.net"
+		}
+	}
+}

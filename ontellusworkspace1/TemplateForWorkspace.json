@@ -1,0 +1,1569 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"workspaceName": {
+			"type": "string",
+			"metadata": "Workspace name",
+			"defaultValue": "ontellusworkspace1"
+		},
+		"SqlServer1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SqlServer1'"
+		},
+		"ontellusworkspace1-WorkspaceDefaultSqlServer_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'ontellusworkspace1-WorkspaceDefaultSqlServer'"
+		},
+		"ontellusworkspace1-WorkspaceDefaultStorage_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://ontellusgen2account.dfs.core.windows.net"
+		}
+	},
+	"variables": {
+		"workspaceId": "[concat('Microsoft.Synapse/workspaces/', parameters('workspaceName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('workspaceName'), '/Pipeline 1')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"additionalColumns": [
+									{
+										"name": "TriggerTime",
+										"value": {
+											"value": "@pipeline().TriggerTime",
+											"type": "Expression"
+										}
+									},
+									{
+										"name": "guid",
+										"value": {
+											"value": "@guid()",
+											"type": "Expression"
+										}
+									}
+								],
+								"queryTimeout": "02:00:00",
+								"isolationLevel": "ReadUncommitted",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "OrdNum",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "OrdNum",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CSS",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "CSS",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "KAM",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "KAM",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CaseName",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "CaseName",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "FirmNo",
+											"type": "Double",
+											"physicalType": "float"
+										},
+										"sink": {
+											"name": "FirmNo",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "BRG",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "BRG",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CurrentPartStatus",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "CurrentPartStatus",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "FirmName",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "FirmName",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "FirmCity",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "FirmCity",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "FirmState",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "FirmState",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "FirmRating",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "FirmRating",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "FirmClass",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "FirmClass",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CreationDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "CreationDate",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Aging Business Days",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "Aging Business Days",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Order Age (MR8 part create date to present Business days)",
+											"type": "Double",
+											"physicalType": "float"
+										},
+										"sink": {
+											"name": "Order Age (MR8 part create date to present Business days)",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Order Age (MR8 order date to present Business days)",
+											"type": "Double",
+											"physicalType": "float"
+										},
+										"sink": {
+											"name": "Order Age (MR8 order date to present Business days)",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "60+ Aged",
+											"type": "Double",
+											"physicalType": "float"
+										},
+										"sink": {
+											"name": "60+ Aged",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "90+ Aged",
+											"type": "Double",
+											"physicalType": "float"
+										},
+										"sink": {
+											"name": "90+ Aged",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "OIP Status",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "OIP Status",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LocationName",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "LocationName",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LocType",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "LocType",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LocCity",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "LocCity",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Aging Hold or In Progress",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "Aging Hold or In Progress",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Last Status Date",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "Last Status Date",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Last Note Date",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "Last Note Date",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Last Note Aging Business Days",
+											"type": "Double",
+											"physicalType": "float"
+										},
+										"sink": {
+											"name": "Last Note Aging Business Days",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Last Note",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "Last Note",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Last RRC Note Aging Business Days",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "Last RRC Note Aging Business Days",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "RequestSent_Aging",
+											"type": "Double",
+											"physicalType": "float"
+										},
+										"sink": {
+											"name": "RequestSent_Aging",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CaseType",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "CaseType",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "FacSpec",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "FacSpec",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "FacPartnership",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "FacPartnership",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LocPhoneNumber",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "LocPhoneNumber",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LocState",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "LocState",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "RollUpGrouping",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "RollUpGrouping",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "RecordType",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "RecordType",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ReOpen",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "ReOpen",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Assigned OE Specialist",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "Assigned OE Specialist",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "F39",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "F39",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "F40",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "F40",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "F41",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "F41",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "TriggerTime"
+										},
+										"sink": {
+											"name": "TriggerTime",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "guid"
+										},
+										"sink": {
+											"name": "guid",
+											"type": "String",
+											"physicalType": "String"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SqlServerTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "OpenOrders",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Data flow1",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "Copy data1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "Dataflow1",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": [],
+				"lastPublishTime": "2022-07-24T17:14:59Z"
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/datasets/SqlServerTable1')]",
+				"[concat(variables('workspaceId'), '/datasets/OpenOrders')]",
+				"[concat(variables('workspaceId'), '/dataflows/Dataflow1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/OpenOrders')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ontellusworkspace1-WorkspaceDefaultStorage",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "OpenOrders",
+						"fileSystem": "ontellusfilesystem"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "OrdNum",
+						"type": "String"
+					},
+					{
+						"name": "CSS",
+						"type": "String"
+					},
+					{
+						"name": "KAM",
+						"type": "String"
+					},
+					{
+						"name": "CaseName",
+						"type": "String"
+					},
+					{
+						"name": "FirmNo",
+						"type": "String"
+					},
+					{
+						"name": "BRG",
+						"type": "String"
+					},
+					{
+						"name": "CurrentPartStatus",
+						"type": "String"
+					},
+					{
+						"name": "FirmName",
+						"type": "String"
+					},
+					{
+						"name": "FirmCity",
+						"type": "String"
+					},
+					{
+						"name": "FirmState",
+						"type": "String"
+					},
+					{
+						"name": "FirmRating",
+						"type": "String"
+					},
+					{
+						"name": "FirmClass",
+						"type": "String"
+					},
+					{
+						"name": "CreationDate",
+						"type": "String"
+					},
+					{
+						"name": "Aging Business Days",
+						"type": "String"
+					},
+					{
+						"name": "Order Age (MR8 part create date to present Business days)",
+						"type": "String"
+					},
+					{
+						"name": "Order Age (MR8 order date to present Business days)",
+						"type": "String"
+					},
+					{
+						"name": "60+ Aged",
+						"type": "String"
+					},
+					{
+						"name": "90+ Aged",
+						"type": "String"
+					},
+					{
+						"name": "OIP Status",
+						"type": "String"
+					},
+					{
+						"name": "LocationName",
+						"type": "String"
+					},
+					{
+						"name": "LocType",
+						"type": "String"
+					},
+					{
+						"name": "LocCity",
+						"type": "String"
+					},
+					{
+						"name": "Aging Hold or In Progress",
+						"type": "String"
+					},
+					{
+						"name": "Last Status Date",
+						"type": "String"
+					},
+					{
+						"name": "Last Note Date",
+						"type": "String"
+					},
+					{
+						"name": "Last Note Aging Business Days",
+						"type": "String"
+					},
+					{
+						"name": "Last Note",
+						"type": "String"
+					},
+					{
+						"name": "Last RRC Note Aging Business Days",
+						"type": "String"
+					},
+					{
+						"name": "RequestSent_Aging",
+						"type": "String"
+					},
+					{
+						"name": "CaseType",
+						"type": "String"
+					},
+					{
+						"name": "FacSpec",
+						"type": "String"
+					},
+					{
+						"name": "FacPartnership",
+						"type": "String"
+					},
+					{
+						"name": "LocPhoneNumber",
+						"type": "String"
+					},
+					{
+						"name": "LocState",
+						"type": "String"
+					},
+					{
+						"name": "RollUpGrouping",
+						"type": "String"
+					},
+					{
+						"name": "RecordType",
+						"type": "String"
+					},
+					{
+						"name": "ReOpen",
+						"type": "String"
+					},
+					{
+						"name": "Assigned OE Specialist",
+						"type": "String"
+					},
+					{
+						"name": "F39",
+						"type": "String"
+					},
+					{
+						"name": "F40",
+						"type": "String"
+					},
+					{
+						"name": "F41",
+						"type": "String"
+					},
+					{
+						"name": "TriggerTime",
+						"type": "String"
+					},
+					{
+						"name": "guid",
+						"type": "String"
+					},
+					{
+						"name": "HistoryKey",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/ontellusworkspace1-WorkspaceDefaultStorage')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/OpenOrdersHistory')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ontellusworkspace1-WorkspaceDefaultStorage",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "OpenOrders",
+						"fileSystem": "ontellusfilesystem"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "OrdNum",
+						"type": "String"
+					},
+					{
+						"name": "CSS",
+						"type": "String"
+					},
+					{
+						"name": "KAM",
+						"type": "String"
+					},
+					{
+						"name": "CaseName",
+						"type": "String"
+					},
+					{
+						"name": "FirmNo",
+						"type": "String"
+					},
+					{
+						"name": "BRG",
+						"type": "String"
+					},
+					{
+						"name": "CurrentPartStatus",
+						"type": "String"
+					},
+					{
+						"name": "FirmName",
+						"type": "String"
+					},
+					{
+						"name": "FirmCity",
+						"type": "String"
+					},
+					{
+						"name": "FirmState",
+						"type": "String"
+					},
+					{
+						"name": "FirmRating",
+						"type": "String"
+					},
+					{
+						"name": "FirmClass",
+						"type": "String"
+					},
+					{
+						"name": "CreationDate",
+						"type": "String"
+					},
+					{
+						"name": "Aging Business Days",
+						"type": "String"
+					},
+					{
+						"name": "Order Age (MR8 part create date to present Business days)",
+						"type": "String"
+					},
+					{
+						"name": "Order Age (MR8 order date to present Business days)",
+						"type": "String"
+					},
+					{
+						"name": "60+ Aged",
+						"type": "String"
+					},
+					{
+						"name": "90+ Aged",
+						"type": "String"
+					},
+					{
+						"name": "OIP Status",
+						"type": "String"
+					},
+					{
+						"name": "LocationName",
+						"type": "String"
+					},
+					{
+						"name": "LocType",
+						"type": "String"
+					},
+					{
+						"name": "LocCity",
+						"type": "String"
+					},
+					{
+						"name": "Aging Hold or In Progress",
+						"type": "String"
+					},
+					{
+						"name": "Last Status Date",
+						"type": "String"
+					},
+					{
+						"name": "Last Note Date",
+						"type": "String"
+					},
+					{
+						"name": "Last Note Aging Business Days",
+						"type": "String"
+					},
+					{
+						"name": "Last Note",
+						"type": "String"
+					},
+					{
+						"name": "Last RRC Note Aging Business Days",
+						"type": "String"
+					},
+					{
+						"name": "RequestSent_Aging",
+						"type": "String"
+					},
+					{
+						"name": "CaseType",
+						"type": "String"
+					},
+					{
+						"name": "FacSpec",
+						"type": "String"
+					},
+					{
+						"name": "FacPartnership",
+						"type": "String"
+					},
+					{
+						"name": "LocPhoneNumber",
+						"type": "String"
+					},
+					{
+						"name": "LocState",
+						"type": "String"
+					},
+					{
+						"name": "RollUpGrouping",
+						"type": "String"
+					},
+					{
+						"name": "RecordType",
+						"type": "String"
+					},
+					{
+						"name": "ReOpen",
+						"type": "String"
+					},
+					{
+						"name": "Assigned OE Specialist",
+						"type": "String"
+					},
+					{
+						"name": "F39",
+						"type": "String"
+					},
+					{
+						"name": "F40",
+						"type": "String"
+					},
+					{
+						"name": "F41",
+						"type": "String"
+					},
+					{
+						"name": "TriggerTime",
+						"type": "String"
+					},
+					{
+						"name": "guid",
+						"type": "String"
+					},
+					{
+						"name": "HistoryKey",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/ontellusworkspace1-WorkspaceDefaultStorage')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SqlServerTable1')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "OrdNum",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CSS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "KAM",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CaseName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FirmNo",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "BRG",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CurrentPartStatus",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FirmName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FirmCity",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FirmState",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FirmRating",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FirmClass",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CreationDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "Aging Business Days",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Order Age (MR8 part create date to present Business days)",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "Order Age (MR8 order date to present Business days)",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "60+ Aged",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "90+ Aged",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "OIP Status",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LocationName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LocType",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LocCity",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Aging Hold or In Progress",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Last Status Date",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "Last Note Date",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "Last Note Aging Business Days",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "Last Note",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Last RRC Note Aging Business Days",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RequestSent_Aging",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "CaseType",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FacSpec",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FacPartnership",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LocPhoneNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LocState",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RollUpGrouping",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RecordType",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ReOpen",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Assigned OE Specialist",
+						"type": "nvarchar"
+					},
+					{
+						"name": "F39",
+						"type": "nvarchar"
+					},
+					{
+						"name": "F40",
+						"type": "nvarchar"
+					},
+					{
+						"name": "F41",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "OpenOrders$"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/SqlServer1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SqlServer1')]",
+			"type": "Microsoft.Synapse/workspaces/linkedServices",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"connectionString": "[parameters('SqlServer1_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "IntegrationRuntime1SelfHosted",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/integrationRuntimes/IntegrationRuntime1SelfHosted')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/ontellusworkspace1-WorkspaceDefaultSqlServer')]",
+			"type": "Microsoft.Synapse/workspaces/linkedServices",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"parameters": {
+					"DBName": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "AzureSqlDW",
+				"typeProperties": {
+					"connectionString": "[parameters('ontellusworkspace1-WorkspaceDefaultSqlServer_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/ontellusworkspace1-WorkspaceDefaultStorage')]",
+			"type": "Microsoft.Synapse/workspaces/linkedServices",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('ontellusworkspace1-WorkspaceDefaultStorage_properties_typeProperties_url')]"
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/AutoResolveIntegrationRuntime')]",
+			"type": "Microsoft.Synapse/workspaces/integrationRuntimes",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"type": "Managed",
+				"typeProperties": {
+					"computeProperties": {
+						"location": "AutoResolve",
+						"dataFlowProperties": {
+							"computeType": "General",
+							"coreCount": 8,
+							"timeToLive": 0
+						}
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/IntegrationRuntime1SelfHosted')]",
+			"type": "Microsoft.Synapse/workspaces/integrationRuntimes",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"type": "SelfHosted",
+				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/Dataflow1')]",
+			"type": "Microsoft.Synapse/workspaces/dataflows",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "OpenOrders",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "OpenOrdersHistory",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "surrogateKey1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          OrdNum as string,",
+						"          CSS as string,",
+						"          KAM as string,",
+						"          CaseName as string,",
+						"          FirmNo as string,",
+						"          BRG as string,",
+						"          CurrentPartStatus as string,",
+						"          FirmName as string,",
+						"          FirmCity as string,",
+						"          FirmState as string,",
+						"          FirmRating as string,",
+						"          FirmClass as string,",
+						"          CreationDate as string,",
+						"          {Aging Business Days} as string,",
+						"          {Order Age (MR8 part create date to present Business days)} as short,",
+						"          {Order Age (MR8 order date to present Business days)} as string,",
+						"          {60+ Aged} as string,",
+						"          {90+ Aged} as string,",
+						"          {OIP Status} as string,",
+						"          LocationName as string,",
+						"          LocType as string,",
+						"          LocCity as string,",
+						"          {Aging Hold or In Progress} as string,",
+						"          {Last Status Date} as string,",
+						"          {Last Note Date} as string,",
+						"          {Last Note Aging Business Days} as short,",
+						"          {Last Note} as string,",
+						"          {Last RRC Note Aging Business Days} as string,",
+						"          RequestSent_Aging as string,",
+						"          CaseType as string,",
+						"          FacSpec as string,",
+						"          FacPartnership as string,",
+						"          LocPhoneNumber as string,",
+						"          LocState as string,",
+						"          RollUpGrouping as string,",
+						"          RecordType as string,",
+						"          ReOpen as boolean,",
+						"          {Assigned OE Specialist} as string,",
+						"          F39 as string,",
+						"          F40 as string,",
+						"          F41 as string,",
+						"          TriggerTime as string,",
+						"          guid as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: true,",
+						"     ignoreNoFilesFound: false) ~> source1",
+						"source1 keyGenerate(output(HistoryKey as long),",
+						"     startAt: 1L,",
+						"     stepValue: 1L) ~> surrogateKey1",
+						"surrogateKey1 sink(allowSchemaDrift: false,",
+						"     validateSchema: false,",
+						"     input(",
+						"          OrdNum as string,",
+						"          CSS as string,",
+						"          KAM as string,",
+						"          CaseName as string,",
+						"          FirmNo as string,",
+						"          BRG as string,",
+						"          CurrentPartStatus as string,",
+						"          FirmName as string,",
+						"          FirmCity as string,",
+						"          FirmState as string,",
+						"          FirmRating as string,",
+						"          FirmClass as string,",
+						"          CreationDate as string,",
+						"          {Aging Business Days} as string,",
+						"          {Order Age (MR8 part create date to present Business days)} as string,",
+						"          {Order Age (MR8 order date to present Business days)} as string,",
+						"          {60+ Aged} as string,",
+						"          {90+ Aged} as string,",
+						"          {OIP Status} as string,",
+						"          LocationName as string,",
+						"          LocType as string,",
+						"          LocCity as string,",
+						"          {Aging Hold or In Progress} as string,",
+						"          {Last Status Date} as string,",
+						"          {Last Note Date} as string,",
+						"          {Last Note Aging Business Days} as string,",
+						"          {Last Note} as string,",
+						"          {Last RRC Note Aging Business Days} as string,",
+						"          RequestSent_Aging as string,",
+						"          CaseType as string,",
+						"          FacSpec as string,",
+						"          FacPartnership as string,",
+						"          LocPhoneNumber as string,",
+						"          LocState as string,",
+						"          RollUpGrouping as string,",
+						"          RecordType as string,",
+						"          ReOpen as string,",
+						"          {Assigned OE Specialist} as string,",
+						"          F39 as string,",
+						"          F40 as string,",
+						"          F41 as string,",
+						"          TriggerTime as string,",
+						"          guid as string,",
+						"          HistoryKey as string",
+						"     ),",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     mapColumn(",
+						"          OrdNum,",
+						"          CSS,",
+						"          KAM,",
+						"          CaseName,",
+						"          FirmNo,",
+						"          BRG,",
+						"          CurrentPartStatus,",
+						"          FirmName,",
+						"          FirmCity,",
+						"          FirmState,",
+						"          FirmRating,",
+						"          FirmClass,",
+						"          CreationDate,",
+						"          {Aging Business Days},",
+						"          {Order Age (MR8 part create date to present Business days)},",
+						"          {Order Age (MR8 order date to present Business days)},",
+						"          {60+ Aged},",
+						"          {90+ Aged},",
+						"          {OIP Status},",
+						"          LocationName,",
+						"          LocType,",
+						"          LocCity,",
+						"          {Aging Hold or In Progress},",
+						"          {Last Status Date},",
+						"          {Last Note Date},",
+						"          {Last Note Aging Business Days},",
+						"          {Last Note},",
+						"          {Last RRC Note Aging Business Days},",
+						"          RequestSent_Aging,",
+						"          CaseType,",
+						"          FacSpec,",
+						"          FacPartnership,",
+						"          LocPhoneNumber,",
+						"          LocState,",
+						"          RollUpGrouping,",
+						"          RecordType,",
+						"          ReOpen,",
+						"          {Assigned OE Specialist},",
+						"          F39,",
+						"          F40,",
+						"          F41,",
+						"          TriggerTime,",
+						"          guid,",
+						"          HistoryKey",
+						"     )) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/datasets/OpenOrders')]",
+				"[concat(variables('workspaceId'), '/datasets/OpenOrdersHistory')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/WorkspaceSystemIdentity')]",
+			"type": "Microsoft.Synapse/workspaces/credentials",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"type": "ManagedIdentity",
+				"typeProperties": {}
+			},
+			"dependsOn": []
+		}
+	]
+}
