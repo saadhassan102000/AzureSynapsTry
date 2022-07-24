@@ -1,0 +1,11 @@
+{
+	"name": "PowerBIWorkspace1",
+	"properties": {
+		"annotations": [],
+		"type": "PowerBIWorkspace",
+		"typeProperties": {
+			"workspaceID": "d5909564-c7ce-41aa-a0b1-f03fdd13a781",
+			"tenantID": "e69ffd5c-8131-4a50-ac19-b4123a1e5502"
+		}
+	}
+}
