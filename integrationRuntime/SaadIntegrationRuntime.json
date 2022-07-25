@@ -1,0 +1,6 @@
+{
+	"name": "SaadIntegrationRuntime",
+	"properties": {
+		"type": "SelfHosted"
+	}
+}

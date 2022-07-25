@@ -1,0 +1,24 @@
+{
+	"name": "SaadSqlServer",
+	"type": "Microsoft.Synapse/workspaces/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "Integrated Security=False;Data Source=EG-5KTY593;Initial Catalog=WideWorldImporters;User ID=sa",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "snapseAKV",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "on-prem-sqlserverpwd",
+				"secretVersion": "32245d12552742faaa1a195c1003222a"
+			}
+		},
+		"connectVia": {
+			"referenceName": "SaadIntegrationRuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

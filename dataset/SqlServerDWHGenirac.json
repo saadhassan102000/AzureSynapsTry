@@ -1,0 +1,25 @@
+{
+	"name": "SqlServerDWHGenirac",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SaadSqlServer",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"OrderID": {
+				"type": "int"
+			}
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "Sales",
+			"table": {
+				"value": "@dataset().OrderID",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

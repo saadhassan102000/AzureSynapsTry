@@ -1,0 +1,17 @@
+{
+	"name": "SourceDataset_jbj",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SaadSqlServer",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "Sales",
+			"table": "Orders"
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

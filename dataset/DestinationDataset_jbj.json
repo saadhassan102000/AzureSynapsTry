@@ -1,0 +1,22 @@
+{
+	"name": "DestinationDataset_jbj",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "integrantsvr-WorkspaceDefaultStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "njkbhgfd",
+				"folderPath": "synabase",
+				"fileSystem": "saad"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}
