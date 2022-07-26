@@ -1,0 +1,11 @@
+{
+	"name": "snapseAKV",
+	"type": "Microsoft.Synapse/workspaces/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://integrantkvl.vault.azure.net/"
+		}
+	}
+}
